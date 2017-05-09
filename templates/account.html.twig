@@ -1,0 +1,53 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+<style>
+a{
+  text-decoration: none !important;
+  color: black;
+}
+</style>
+
+<div class="container">
+
+  <div class="row" style="margin:30px auto;">
+    <div class="col-md-12 text-center">
+      <h2><a href="/mes-vehicules">Mes véhicules</a> | <a href="/location/pending">Locations</a> | <a href="/reservation/pending">Mes réservation</a></h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div style="border:1px solid #ddd; padding:10px;">
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <tbody>
+
+              <tr>
+                <td class="td-titre">Nom</td>
+                <td>{{ users['lastname'] }}</td>
+              </tr>
+              <tr>
+                <td class="td-titre">Prénom</td>
+                <td>{{ users['firstname'] }}</td>
+              </tr>
+              <tr>
+                <td class="td-titre">Email</td>
+                <td>{{ users['mail'] }}</td>
+              </tr>
+              <tr>
+                <td class="td-titre">Date de naissance</td>
+                <td>{{ users['birthday'] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
