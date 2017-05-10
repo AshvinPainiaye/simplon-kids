@@ -1,0 +1,182 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="{{asset('pickadate.js-3.5.6/lib/themes/classic.css')}}">
+<link rel="stylesheet" href="{{asset('pickadate.js-3.5.6/lib/themes/classic.date.css')}}">
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1 style="margin:50px auto;">Inscrire ses enfants</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <form class="form-horizontal" action="" method="post">
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="parent_nom" class="form-control" placeholder="Nom du parent *" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="parent_prenom"  class="form-control" placeholder="Prénom du parent *" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="email" name="mail" class="form-control" placeholder="Email *" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <select class="form-control" name="ateliers" required>
+                  <option value="" selected disabled>Ateliers</option>
+                  {% for workshop in workshops %}
+                  {% if workshop['workshop_id'] == default %}
+                  <option value="{{ workshop['workshop_id'] }}" selected>{{ workshop['title'] }}</option>
+                  {% else %}
+                  <option value="{{ workshop['workshop_id'] }}" >{{ workshop['title'] }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="adresse" class="form-control" placeholder="Adresse *" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="complement" class="form-control" placeholder="Complément d'adresse *" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <input type="text" name="ville" class="form-control" placeholder="Ville *" required>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" name="code_postal" class="form-control" placeholder="Code Postal *" required>
+              </div>
+            </div>
+
+
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="telephone" class="form-control" placeholder="Téléphone *" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <img src="/images/1.jpg" class="img-responsive">
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Enfant 1</h2>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant1_nom" class="form-control" placeholder="Nom de l'enfant 1 *" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant1_prenom" class="form-control" placeholder="Prénom de l'enfant 1 *" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant1_naissance" class="form-control datepicker" placeholder="Date de naissance *" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant1_classe" class="form-control" placeholder="Classe">
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="col-md-6">
+            <h2>Enfant 2</h2>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant2_nom" class="form-control" placeholder="Nom de l'enfant 2">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant2_prenom" class="form-control" placeholder="Prénom de l'enfant 2">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant2_naissance" class="form-control datepicker" placeholder="Date de naissance">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="text" name="enfant2_classe" class="form-control" placeholder="Classe">
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="text-center">
+            <input type="submit" value="INSCRIRE" class="btn btn-success">
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script src="{{asset('pickadate.js-3.5.6/lib/picker.js')}}"></script>
+<script src="{{asset('pickadate.js-3.5.6/lib/picker.date.js')}}"></script>
+
+<script>
+var maxDate = new Date();
+$('.datepicker').pickadate({
+    format: 'dd/mm/yyyy',
+    formatSubmit: 'yyyy-mm-dd',
+    today: '',
+    close: '',
+    clear: '',
+    max: [maxDate.getFullYear() - 8, maxDate.getMonth(), maxDate.getDate()],
+});
+
+</script>
+{% endblock %}

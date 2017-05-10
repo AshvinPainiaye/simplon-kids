@@ -2,7 +2,11 @@
 
 namespace kids\Entity;
 
-class App_Model_Timetable
+use kids\Config\Database;
+use PDO;
+
+
+class Timetable
 {
 
     protected $_id;
@@ -10,7 +14,40 @@ class App_Model_Timetable
     protected $_endAt;
     protected $_enable;
     protected $_workshop_id;
+    protected $connexion;
 
+    public function __construct()
+    {
+      $db = new Database();
+      $this->connexion =  $db->getConnexion();
+    }
+
+    public function save()
+    {
+      $connexion =  $this->connexion;
+
+      $startAt = $this->getStartAt();
+      $endAt = $this->getEndAt();
+      $workshopId = $this->getWorkshopId();
+
+      try {
+
+        $sql = "INSERT INTO timetable (startAt, endAt, workshop_id) VALUE (:startAt, :endAt, :workshop_id)";
+        $stmt = $connexion->prepare($sql);
+
+        $stmt->bindParam(':startAt', $startAt);
+        $stmt->bindParam(':endAt', $endAt);
+        $stmt->bindParam(':workshop_id', $workshopId);
+        $stmt->execute();
+
+        $lastId =  $connexion->lastInsertId();
+        $this->setId($lastId);
+
+      } catch (Exception $e) {
+        echo $e->getMessage();
+      }
+
+    }
 
 
     /**

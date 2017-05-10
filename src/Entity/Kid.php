@@ -2,7 +2,11 @@
 
 namespace kids\Entity;
 
-class App_Model_Kid
+use kids\Config\Database;
+use PDO;
+
+
+class Kid
 {
 
     protected $_id;
@@ -10,6 +14,42 @@ class App_Model_Kid
     protected $_lastname;
     protected $_birthday;
     protected $_classroom;
+    protected $connexion;
+
+    public function __construct()
+    {
+      $db = new Database();
+      $this->connexion =  $db->getConnexion();
+    }
+
+    public function save()
+    {
+      $connexion =  $this->connexion;
+
+      $firstname = $this->getFirstname();
+      $lastname = $this->getLastname();
+      $birthday = $this->getBirthday();
+      $classroom = $this->getClassroom();
+
+      try {
+
+        $sql = "INSERT INTO `kid` (`firstname`, `lastname`, `birthday`, `classroom`) VALUE (:firstname, :lastname, :birthday, :classroom)";
+        $stmt = $connexion->prepare($sql);
+
+        $stmt->bindParam(':firstname', $firstname);
+        $stmt->bindParam(':lastname', $lastname);
+        $stmt->bindParam(':birthday',$birthday);
+        $stmt->bindParam(':classroom', $classroom);
+        $stmt->execute();
+
+        $lastId =  $connexion->lastInsertId();
+        $this->setId($lastId);
+
+      } catch (Exception $e) {
+        echo $e->getMessage();
+      }
+
+    }
 
 
     /**

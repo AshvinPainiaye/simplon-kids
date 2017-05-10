@@ -7,186 +7,270 @@ use PDO;
 class Workshop
 {
 
-    protected $_id;
-    protected $_title;
-    protected $_description;
-    protected $_price;
-    protected $_max_kids;
-    protected $_image;
-    protected $_visible;
-    protected $_public_age_id;
-    protected $_establishment_id;
-    protected $_workshop_category_id;
+  protected $_id;
+  protected $_title;
+  protected $_description;
+  protected $_price;
+  protected $_max_kids;
+  protected $_image;
+  protected $_visible;
+  protected $_public_age_id;
+  protected $_establishment_id;
+  protected $_workshop_category_id;
 
-    protected $connexion;
+  protected $connexion;
 
-      public function __construct()
-      {
-        $db = new Database();
-        $this->connexion =  $db->getConnexion();
+  public function __construct()
+  {
+    $db = new Database();
+    $this->connexion =  $db->getConnexion();
+  }
+
+
+  public function fetchAll($limit = null, $onlyVisible = true)
+  {
+    $connexion =  $this->connexion;
+
+    if ($limit != null) {
+      $sql = "SELECT id FROM workshop ORDER BY id DESC LIMIT $limit";
+
+      if ($onlyVisible == true) {
+        $sql = "SELECT id FROM workshop WHERE visible = 1 ORDER BY id DESC LIMIT $limit";
       }
 
+    } else {
+      $sql = "SELECT id FROM workshop ORDER BY id DESC";
 
-      public function fetchAll($limit = null)
-      {
-        $connexion =  $this->connexion;
-
-        if ($limit != null) {
-          $sql = "SELECT id FROM workshop WHERE visible = 1 ORDER BY id DESC LIMIT $limit";
-        } else {
-          $sql = "SELECT id FROM workshop WHERE visible = 1 ORDER BY id DESC";
-        }
-
-        $stmt = $connexion->prepare($sql);
-        $stmt->execute();
-
-        $results = $stmt->fetchAll();
-
-        $return = array();
-        foreach($results as $result)
-        {
-          $return[] = $this->find($result['id']);
-        }
-        return $return;
+      if ($onlyVisible == true) {
+        $sql = "SELECT id FROM workshop WHERE visible = 1 ORDER BY id DESC";
       }
-
-
-      public function find($id)
-        {
-          $connexion =  $this->connexion;
-
-          $sql = "SELECT *
-          FROM workshop as w
-          JOIN public_age a
-          ON w.public_age_id = a.id
-          JOIN establishment e
-          ON w.establishment_id = e.id
-          JOIN workshop_category c
-          ON w.workshop_category_id = c.id
-          WHERE w.id = :id";
-
-          $stmt = $connexion->prepare($sql);
-          $stmt->execute(array(':id' => $id));
-          $result = $stmt->fetch(PDO::FETCH_ASSOC);
-          return $result;
-        }
-
-
-
-
-
-    /**
-     * GETTERS / SETTERS
-     */
-    public function getId()
-    {
-        return $this->_id;
     }
 
-    public function setId($id)
-    {
-        $this->_id = $id;
-        return $this;
-    }
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
 
-    public function getTitle()
-    {
-        return $this->_title;
-    }
+    $results = $stmt->fetchAll();
 
-    public function setTitle($title)
+    $return = array();
+    foreach($results as $result)
     {
-        $this->_title = $title;
-        return $this;
+      $return[] = $this->find($result['id']);
     }
+    return $return;
+  }
 
-    public function getDescription()
-    {
-        return $this->_description;
-    }
 
-    public function setDescription($description)
-    {
-        $this->_description = $description;
-        return $this;
-    }
+  public function find($id)
+  {
+    $connexion =  $this->connexion;
 
-    public function getPrice()
-    {
-        return $this->_price;
-    }
+    $sql = "SELECT *, w.id as workshop_id, t.startAt as startAt, t.endAt as endAt
+    FROM workshop as w
+    JOIN public_age a
+    ON w.public_age_id = a.id
+    JOIN establishment e
+    ON w.establishment_id = e.id
+    JOIN workshop_category c
+    ON w.workshop_category_id = c.id
+    JOIN timetable t
+    ON w.id = t.workshop_id
+    WHERE w.id = :id";
 
-    public function setPrice($price)
-    {
-        $this->_price = $price;
-        return $this;
-    }
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    public function getMaxKids()
-    {
-        return $this->_max_kids;
-    }
 
-    public function setMaxKids($maxKids)
-    {
-        $this->_max_kids = $maxKids;
-        return $this;
-    }
+    $jours = array(
+      1 => 'Lundi',
+      2 => 'Mardi',
+      3 => 'Mercredi',
+      4 =>  'Jeudi',
+      5 => 'Vendredi',
+      6 => 'Samedi',
+      7 => 'Dimanche'
+    );
 
-    public function getImage()
-    {
-        return $this->_image;
-    }
+    $mois = array(
+      1 => 'jan',
+      2 => 'fevrier',
+      3 => 'mars',
+      4 => 'avril',
+      5 => 'mai',
+      6 => 'juin',
+      7 => 'juillet',
+      8 => 'aout',
+      9 => 'septembre',
+      10 => 'octobre',
+      11 => 'novembre',
+      12 => 'decembre'
+    );
 
-    public function setImage($image)
-    {
-        $this->_image = $image;
-        return $this;
-    }
+    $day = date('N', strtotime($result['startAt']));
 
-    public function getVisible()
-    {
-        return $this->_visible;
-    }
+    $month = date('n', strtotime($result['startAt']));
+    $result['time'] = $jours[$day] . ' ' . date('j', strtotime($result['startAt'])) . ' ' . $mois[$month] . ' ' . date('G', strtotime($result['startAt'])) . 'h - ' . date('G', strtotime($result['endAt'])) . 'h';
+    return $result;
 
-    public function setVisible($visible)
-    {
-        $this->_visible = $visible;
-        return $this;
-    }
+  }
 
-    public function getPublicAgeId()
-    {
-        return $this->_public_age_id;
-    }
 
-    public function setPublicAgeId($publicAgeId)
-    {
-        $this->_public_age_id = $publicAgeId;
-        return $this;
-    }
 
-    public function getEstablishmentId()
-    {
-        return $this->_establishment_id;
-    }
+  public function save()
+  {
+    $connexion =  $this->connexion;
 
-    public function setEstablishmentId($establishmentId)
-    {
-        $this->_establishment_id = $establishmentId;
-        return $this;
-    }
+    $title = $this->getTitle();
+    $description = $this->getDescription();
+    $price = $this->getPrice();
+    $maxKids = $this->getMaxKids();
+    $image = $this->getImage();
+    $visible = $this->getVisible();
+    $age = $this->getPublicAgeId();
+    $establishment = $this->getEstablishmentId();
+    $workshopCategory = $this->getWorkshopCategoryId();
 
-    public function getWorkshopCategoryId()
-    {
-        return $this->_workshop_category_id;
-    }
+    try {
 
-    public function setWorkshopCategoryId($workshopCategoryId)
-    {
-        $this->_workshop_category_id = $workshopCategoryId;
-        return $this;
+      $sql = "INSERT INTO `workshop` (`title`, `description`, `price`, `max_kids`, `image`, `visible`, `public_age_id`, `establishment_id`, `workshop_category_id`) VALUE (:title, :description, :price, :max_kids, :image, :visible, :public_age_id, :establishment_id, :workshop_category_id)";
+
+      $stmt = $connexion->prepare($sql);
+
+      $stmt->bindParam(':title', $title);
+      $stmt->bindParam(':description', $description);
+      $stmt->bindParam(':price',$price);
+      $stmt->bindParam(':max_kids', $maxKids);
+      $stmt->bindParam(':image', $image);
+      $stmt->bindParam(':visible', $visible);
+      $stmt->bindParam(':public_age_id', $age);
+      $stmt->bindParam(':establishment_id', $establishment);
+      $stmt->bindParam(':workshop_category_id', $workshopCategory);
+      $stmt->execute();
+
+      $lastId =  $connexion->lastInsertId();
+      $this->setId($lastId);
+
+    } catch (Exception $e) {
+      echo $e->getMessage();
     }
+    
+  }
+
+
+
+
+  /**
+  * GETTERS / SETTERS
+  */
+  public function getId()
+  {
+    return $this->_id;
+  }
+
+  public function setId($id)
+  {
+    $this->_id = $id;
+    return $this;
+  }
+
+  public function getTitle()
+  {
+    return $this->_title;
+  }
+
+  public function setTitle($title)
+  {
+    $this->_title = $title;
+    return $this;
+  }
+
+  public function getDescription()
+  {
+    return $this->_description;
+  }
+
+  public function setDescription($description)
+  {
+    $this->_description = $description;
+    return $this;
+  }
+
+  public function getPrice()
+  {
+    return $this->_price;
+  }
+
+  public function setPrice($price)
+  {
+    $this->_price = $price;
+    return $this;
+  }
+
+  public function getMaxKids()
+  {
+    return $this->_max_kids;
+  }
+
+  public function setMaxKids($maxKids)
+  {
+    $this->_max_kids = $maxKids;
+    return $this;
+  }
+
+  public function getImage()
+  {
+    return $this->_image;
+  }
+
+  public function setImage($image)
+  {
+    $this->_image = $image;
+    return $this;
+  }
+
+  public function getVisible()
+  {
+    return $this->_visible;
+  }
+
+  public function setVisible($visible)
+  {
+    $this->_visible = $visible;
+    return $this;
+  }
+
+  public function getPublicAgeId()
+  {
+    return $this->_public_age_id;
+  }
+
+  public function setPublicAgeId($publicAgeId)
+  {
+    $this->_public_age_id = $publicAgeId;
+    return $this;
+  }
+
+  public function getEstablishmentId()
+  {
+    return $this->_establishment_id;
+  }
+
+  public function setEstablishmentId($establishmentId)
+  {
+    $this->_establishment_id = $establishmentId;
+    return $this;
+  }
+
+  public function getWorkshopCategoryId()
+  {
+    return $this->_workshop_category_id;
+  }
+
+  public function setWorkshopCategoryId($workshopCategoryId)
+  {
+    $this->_workshop_category_id = $workshopCategoryId;
+    return $this;
+  }
 
 
 

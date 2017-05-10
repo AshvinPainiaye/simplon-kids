@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use kids\Entity\Workshop;
 
+
 class DefaultController
 {
 
@@ -18,7 +19,7 @@ class DefaultController
   {
     $workshop = new Workshop();
     $list = $workshop->fetchAll(4);
-    return new Response($app['twig']->render('index.html.twig', array('workshops' => $list)));
+    return new Response($app['twig']->render('default/index.html.twig', array('workshops' => $list)));
   }
 
   /**
@@ -27,7 +28,7 @@ class DefaultController
   */
   public function faqAction(Application $app, Request $request)
   {
-    return new Response($app['twig']->render('faq.html.twig'));
+    return new Response($app['twig']->render('default/faq.html.twig'));
   }
 
   /**
@@ -36,7 +37,7 @@ class DefaultController
   */
   public function contactAction(Application $app, Request $request)
   {
-    return new Response($app['twig']->render('contact.html.twig'));
+    return new Response($app['twig']->render('default/contact.html.twig'));
   }
 
 }

@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+<style>
+.cadre{
+  background: linear-gradient(to bottom, #FFA534 0%, rgba(236, 22, 87, 0.7) 128%);
+  padding: 30px;
+  border-radius:50px;
+}
+
+a, a:hover{
+  color: #fff;
+}
+i{
+  font-size:50px;
+  margin-bottom: 20px;
+}
+</style>
+
+<div class="container">
+
+  <div class="row" style="margin:30px auto;">
+    <div class="col-md-4 col-md-offset-2 text-center">
+      <a href="{{path('new_workshop')}}">
+        <div class="cadre">
+          <i class="pe-7s-note2"></i> <br>Créer un atelier
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 text-center">
+      <a href="{{path('workshop_attente_admin')}}">
+        <div class="cadre">
+          <i class="pe-7s-clock"></i> <br>
+          Attente
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

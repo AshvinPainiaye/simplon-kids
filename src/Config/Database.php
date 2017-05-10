@@ -7,17 +7,17 @@ use PDOException;
 
 class Database{
 
-private $connexion = null;
+  private $connexion = null;
 
-public function getConnexion(){
+  public function getConnexion(){
 
-  try {
-    $this->connexion = new PDO('mysql:host=localhost;dbname=eval_kids', 'root' ,'');
-    $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+      $this->connexion = new PDO('mysql:host=localhost;dbname=eval_kids', 'root' ,'');
+      $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch(PDOException $e) {
+      echo $e->getMessage();
+    }
+    return $this->connexion;
   }
-  catch(PDOException $e) {
-    echo $e->getMessage();
-  }
-  return $this->connexion;
-}
 }

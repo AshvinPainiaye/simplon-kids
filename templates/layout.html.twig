@@ -17,50 +17,108 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="{{asset('lbd_pro/HTML/assets/css/light-bootstrap-dashboard.css')}}">
+
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{asset('css/main.css')}}">
 
   <!-- Custom Fonts Icon-->
   <link href="{{asset('font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{asset('lbd_pro/HTML/assets/css/pe-icon-7-stroke.css')}}" rel="stylesheet" type="text/css">
 
   <!-- Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Lato:400,300,300italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Julius+Sans+One' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
 </head>
-<body style="margin-top:50px;">
+<body style="margin-top:100px;">
 
-  {% block navbar %}
-  <!-- DEBUT NAV -->
-  <nav class="navbar navbar-default navbar-fixed-top">
+
+  <div class="">
+
+    {% block navbar %}
+    <!-- DEBUT NAV -->
+    <style media="screen">
+    @media (min-width: 992px)
+    {.navbar-fixed {
+      width: 100%;
+    }
+  }
+
+
+  @media (min-width: 768px)
+  {
+    .navbar-right {
+      float: right!important;
+      margin-right: 10px;
+    }
+  }
+
+
+  .navbar .navbar-brand {
+    position: relative;
+    bottom: 9px;
+  }
+
+
+  .navbar-default {
+    background: linear-gradient(to bottom, rgba(236, 22, 87, 0.7) 0%, #FFA534 228%);
+    border-bottom:none;
+}
+.navbar-default a{
+  color: #fff !important;
+}
+
+
+.navbar-default .navbar-right a:hover{
+  background-color: rgba(0,0,0, 0.3) !important;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff !important;
+}
+
+.navbar-collapse {
+  border-top:none;
+}
+  </style>
+
+  <nav class="navbar navbar-default navbar-fixed navbar-fixed-top">
     <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{{path('homepage')}}">Simplon Réunion <br><span style="font-size:14px;">Programmation informatique pour les enfants</span></a>
-      </div>
+    </div>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{path('homepage')}}">Simplon Réunion <br><span style="font-size:14px;">Programmation informatique pour les enfants</span></a>
+    </div>
+    <div class="collapse navbar-collapse">
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Ateliers</a></li>
-          <li><a href="#">Inscrire</a></li>
-          <li><a href="{{path('faq')}}">FAQ</a></li>
-          <li><a href="{{path('contact')}}">Contact</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{path('workshop')}}">Ateliers</a></li>
+        <li><a href="{{path('workshop_register')}}">Inscrire</a></li>
+        <li><a href="{{path('faq')}}">FAQ</a></li>
+        <li><a href="{{path('contact')}}">Contact</a></li>
+
+        {% if  app.session.get('user')  %}
+        <li><a href="/admin">Administrateur</a></li>
+        <li><a href="/logout">Deconnexion</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
 
 
-  <!-- FIN NAV -->
+<!-- FIN NAV -->
 {% endblock %}
 
 {% block header %}
@@ -68,34 +126,52 @@
 
 {% endblock %}
 
+<div>
+
+  <!-- Navbar used to be here but it was moved outisde of the div.main-panel to achieve the Fixed Position -->
+
+  <div class="content">
+    <div class="container-fluid">
 
 
-{% block body %}
-{% endblock %}
+      <!--      here you can write your content for the main area                     -->
+      {% block body %}
+      {% endblock %}
 
-{% block footer %}
-<!-- DEBUT FOOTER -->
-<footer style="padding-top: 28px; padding-bottom:20px; background-color:#3d8c98; color:#fff; margin-top:100px;">
-  <div class="container text-center">
-    <div class="row">
-      <div class="col-md-12">
-        <p>
-          &copy; Simplon Réunion 2017 | Mentions légales
-        </p>
-      </div>
+
+
     </div>
   </div>
-</footer>
-<!-- FIN FOOTER -->
+
+
+
+
+
+  {% block footer %}
+  <!-- DEBUT FOOTER -->
+  <footer class="footer">
+    <div class="container-fluid">
+      <p class="copyright text-center">
+        &copy; Simplon Réunion 2017 | Mentions légales
+      </p>
+    </div>
+  </footer>
+  <!-- FIN FOOTER -->
+
 {% endblock %}
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</div>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
+<script src="{{asset('lbd_pro/HTML/assets/js/jquery-ui.min.js')}}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+<script src="{{asset('lbd_pro/HTML/assets/js/light-bootstrap-dashboard.js')}}"></script>
+
 {% block javascript %}{% endblock %}
 </body>
 </html>

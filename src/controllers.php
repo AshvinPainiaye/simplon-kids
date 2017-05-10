@@ -9,7 +9,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->mount('/', new kids\Provider\Controller\DefaultControllerProvider);
-
+$app->mount('/', new kids\Provider\Controller\WorkshopControllerProvider);
+$app->mount('/', new kids\Provider\Controller\AdminControllerProvider);
 
 
 

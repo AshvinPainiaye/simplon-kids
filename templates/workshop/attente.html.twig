@@ -1,0 +1,30 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+<div class="container">
+
+  <div class="row">
+    {% for workshop in workshops %}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="/images/{{ workshop['image'] }}">
+        <div class="caption">
+          <p>Atelier : {{ workshop['title'] }} </p>
+          <p>Enfant : {{ workshop['kid_firstname'] }} {{ workshop['kid_lastname'] }}</p>
+          <p>Parent : {{ workshop['parent_firstname'] }} {{ workshop['parent_lastname'] }}</p>
+
+          <br>
+
+          <p class="text-center">
+            <a href="{{path('workshop_attente_admin_response', {'workshop': workshop['workshop_id'],'kid': workshop['kid_id'], 'response': 1}) }}" class="btn btn-success" role="button">Valider</a>
+            <a href="{{path('workshop_attente_admin_response', {'workshop': workshop['workshop_id'],'kid': workshop['kid_id'], 'response': 0}) }}" class="btn btn-danger" role="button">Refuser</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

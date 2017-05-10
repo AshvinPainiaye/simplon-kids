@@ -1,0 +1,194 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="{{asset('pickadate.js-3.5.6/lib/themes/classic.css')}}">
+<link rel="stylesheet" href="{{asset('pickadate.js-3.5.6/lib/themes/classic.date.css')}}">
+<link rel="stylesheet" href="{{asset('pickadate.js-3.5.6/lib/themes/classic.time.css')}}">
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center" style="margin:50px auto;">Nouveau Atelier</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+
+
+      <form class="form-horizontal" action="new" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <div class="labelContainer">
+            <label class="col-sm-3 control-label">Ages</label>
+          </div>
+          <div class="col-sm-9">
+            <select class="form-control" name="age" required>
+              {% for age in ages %}
+              <option value="{{ age['id'] }}">{{ age['start'] }} - {{ age['end'] }}</option>
+              {% endfor %}
+            </select>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Etablissement</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control" name="establishment" required>
+            {% for establishment in establishments %}
+            <option value="{{ establishment['id'] }}">{{ establishment['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label" required>Categories</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control" name="category">
+            {% for workshop in workshops_category %}
+            <option value="{{ workshop['id'] }}">{{ workshop['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Titre</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" name="title" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Description</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" name="description" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">prix</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" name="price" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Nombre enfant max</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" name="max_kids" class="form-control" required>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Debut</label>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" name="debut" class="form-control datepicker" class="form-control">
+        </div>
+        <div class="col-sm-3">
+          <input type="text" name="hours_debut" class="form-control timepicker" class="form-control">
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label">Fin</label>
+        </div>
+        <div class="col-sm-3">
+          <!--<input type="text" name="fin" class="form-control datepicker" class="form-control" required>-->
+        </div>
+        <div class="col-sm-3">
+          <input type="text" name="hours_fin" class="form-control timepicker" class="form-control" required>
+        </div>
+      </div>
+
+
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label"></label>
+        </div>
+        <div class="col-sm-9">
+          <label><input type="checkbox" name="visibility" checked>Visible</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="labelContainer">
+          <label class="col-sm-3 control-label"></label>
+        </div>
+        <div class="col-sm-9">
+          <input type="file" name="fileToUpload" id="fileToUpload">
+        </div>
+      </div>
+
+
+
+      <div class="form-group">
+        <div class="labelContainer"><label for="valid" class="col-sm-3 control-label"></label>
+        </div>
+        <div class="col-sm-9">
+          <input type="submit" name="valid" id="valid" value="Enregistrer" class="btn btn-success">
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+
+<script src="{{asset('pickadate.js-3.5.6/lib/picker.js')}}"></script>
+<script src="{{asset('pickadate.js-3.5.6/lib/picker.date.js')}}"></script>
+<script src="{{asset('pickadate.js-3.5.6/lib/picker.time.js')}}"></script>
+
+<script>
+var minDate = new Date();
+$('.datepicker').pickadate({
+    format: 'dd/mm/yyyy',
+    formatSubmit: 'yyyy-mm-dd',
+    today: '',
+    close: '',
+    clear: '',
+    min: [minDate.getFullYear(), minDate.getMonth(), minDate.getDate()],
+});
+$('.timepicker').pickatime({
+     clear: '',
+     format: 'H:i',
+     min: [8,0],
+     max: [18,0],
+     interval: 30,
+});
+</script>
+{% endblock %}
