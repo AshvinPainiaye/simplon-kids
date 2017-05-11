@@ -33,7 +33,7 @@ class Kid
 
       try {
 
-        $sql = "INSERT INTO `kid` (`firstname`, `lastname`, `birthday`, `classroom`) VALUE (:firstname, :lastname, :birthday, :classroom)";
+        $sql = "INSERT INTO kid (firstname, lastname, birthday, classroom) VALUE (:firstname, :lastname, :birthday, :classroom)";
         $stmt = $connexion->prepare($sql);
 
         $stmt->bindParam(':firstname', $firstname);

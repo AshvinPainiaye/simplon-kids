@@ -35,7 +35,7 @@ class ParentOfKid
 
     try {
 
-      $sql = "INSERT INTO `parent` (`firstname`, `lastname`, `email`, `address_id`, `phone`) VALUE (:firstname, :lastname, :email, :address_id, :phone)";
+      $sql = "INSERT INTO parent (firstname, lastname, email, address_id, phone) VALUE (:firstname, :lastname, :email, :address_id, :phone)";
 
       $stmt = $connexion->prepare($sql);
 

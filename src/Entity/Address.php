@@ -32,7 +32,7 @@ class Address
 
       try {
 
-        $sql = "INSERT INTO `address` (`address`, `complement`, `city`, `zipcode`) VALUE (:address, :complement, :city, :zipcode)";
+        $sql = "INSERT INTO address (address, complement, city, zipcode) VALUE (:address, :complement, :city, :zipcode)";
 
         $stmt = $connexion->prepare($sql);
 

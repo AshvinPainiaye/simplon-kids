@@ -141,7 +141,7 @@ class Workshop
 
     try {
 
-      $sql = "INSERT INTO `workshop` (`title`, `description`, `price`, `max_kids`, `image`, `visible`, `public_age_id`, `establishment_id`, `workshop_category_id`) VALUE (:title, :description, :price, :max_kids, :image, :visible, :public_age_id, :establishment_id, :workshop_category_id)";
+      $sql = "INSERT INTO workshop (title, description, price, max_kids, image, visible, public_age_id, establishment_id, workshop_category_id) VALUE (:title, :description, :price, :max_kids, :image, :visible, :public_age_id, :establishment_id, :workshop_category_id)";
 
       $stmt = $connexion->prepare($sql);
 

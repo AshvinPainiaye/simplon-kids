@@ -1,9 +1,9 @@
-# simplon_kids.com
+# simplon_kids
 
 Installation :
 
 1. composer install
-2. import sql/create_database.sql, sql/sql.sql and sql/eval_kids_test.sql
+2. import sql/create_database.sql, and sql/sql.sql
 3. configure src/Config/Database.php to connect to your database
    note : - default configuration : root and no password
 4. composer run
