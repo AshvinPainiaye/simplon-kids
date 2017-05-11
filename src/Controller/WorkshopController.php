@@ -29,6 +29,12 @@ class WorkshopController
     return new Response($app['twig']->render('workshop/index.html.twig', array('workshops' => $list)));
   }
 
+  public function indexAdminAction(Application $app, Request $request)
+  {
+    $workshop = new Workshop();
+    $list = $workshop->fetchAll(null, false);
+    return new Response($app['twig']->render('workshop/index_admin.html.twig', array('workshops' => $list)));
+  }
 
 
   /**
@@ -129,8 +135,7 @@ class WorkshopController
       ->setWorkshopId($workshop->getId())
       ->save();
 
-
-      return $app->redirect('/ateliers/details/' . $workshop->getId());
+      return $app->redirect('/admin/ateliers');
 
     }
 
@@ -141,16 +146,22 @@ class WorkshopController
     )));
   }
 
-  public function viewAction(Application $app, Request $request)
+
+  public function deleteAction(Application $app, Request $request)
   {
+
+    $user = $app['session']->get('user');
+    if (empty($user)) {
+      return $app->redirect('/login');
+    }
+
     $id = $request->get('id');
 
     $workshopModel = new Workshop();
-    $workshop = $workshopModel->find($id);
+    $workshop = $workshopModel->delete($id);
 
-    return new Response($app['twig']->render('view.html.twig', array(
-      'workshop' => $workshop,
-    )));
+    return $app->redirect('/admin/ateliers');
+
   }
 
 

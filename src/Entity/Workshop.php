@@ -114,7 +114,16 @@ class Workshop
 
   }
 
+  public function delete($id)
+  {
+    $connexion =  $this->connexion;
 
+    $sql = "DELETE FROM workshop
+    WHERE id = :id";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+  }
 
   public function save()
   {
@@ -153,7 +162,7 @@ class Workshop
     } catch (Exception $e) {
       echo $e->getMessage();
     }
-    
+
   }
 
 

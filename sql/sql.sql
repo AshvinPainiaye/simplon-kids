@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `establishment` (
   CONSTRAINT `fk_establishment_address1`
     FOREIGN KEY (`address_id`)
     REFERENCES `address` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -51,18 +51,18 @@ CREATE TABLE IF NOT EXISTS `workshop` (
   CONSTRAINT `fk_workshop_public_age`
     FOREIGN KEY (`public_age_id`)
     REFERENCES `public_age` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_workshop_establishment1`
     FOREIGN KEY (`establishment_id`)
     REFERENCES `establishment` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_workshop_workshop_category1`
     FOREIGN KEY (`workshop_category_id`)
     REFERENCES `workshop_category` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS `timetable` (
   CONSTRAINT `fk_timetable_workshop1`
     FOREIGN KEY (`workshop_id`)
     REFERENCES `workshop` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -92,8 +92,8 @@ CREATE TABLE IF NOT EXISTS `parent` (
   CONSTRAINT `fk_parent_address1`
     FOREIGN KEY (`address_id`)
     REFERENCES `address` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -117,13 +117,13 @@ CREATE TABLE IF NOT EXISTS `workshop_has_kid` (
   CONSTRAINT `fk_workshop_has_kid_workshop1`
     FOREIGN KEY (`workshop_id`)
     REFERENCES `workshop` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_workshop_has_kid_kid1`
     FOREIGN KEY (`kid_id`)
     REFERENCES `kid` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -135,13 +135,13 @@ CREATE TABLE IF NOT EXISTS `kid_has_parent` (
   CONSTRAINT `fk_kid_has_parent_kid1`
     FOREIGN KEY (`kid_id`)
     REFERENCES `kid` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_kid_has_parent_parent1`
     FOREIGN KEY (`parent_id`)
     REFERENCES `parent` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -156,24 +156,20 @@ ENGINE = InnoDB;
 
 
 
-
-
-
-
 INSERT INTO `public_age` (`start`, `end`) VALUES
-(1, 18);
+(1, 18),(10, 18),(8, 13),(4, 9),(10, 15);
 
 
 INSERT INTO `address` (`address`,`complement`,`city`,`zipcode`) VALUES
-('15 rue des saphirs','', 'Sainte-Suzanne', 97441),('10 rue des goyave','', 'Saint-Denis', 97400);
+('15 rue des saphirs','', 'Sainte-Suzanne', 97441),('10 rue des goyave','', 'Saint-Denis', 97400),('Avenue des letchi','', 'Saint-Pierre', 97410), ('Rue des kebab','chemin 4', 'Saint-André', 97490);
 
 
 INSERT INTO `establishment` (`name`,`address_id`) VALUES
-('College Quartier Français', 2);
+('College Quartier Francais', 2), ('College Lucet', 3), ('Ecole 2 canon', 4);
 
 
 INSERT INTO `workshop_category` (`name`) VALUES
-('Amateur'), ('Debutant');
+('ART'), ('Jeux video'), ('Detente'), ('Logique');
 
 INSERT INTO `workshop` (`title`, `description`, `price`, `max_kids`, `image`, `visible`, `public_age_id`, `establishment_id`, `workshop_category_id`) VALUES
 ('HTML', 'Debuter en html', 10, 18, '1.jpg', true, 1, 1, 1);
