@@ -256,9 +256,8 @@ class WorkshopController
 
       }
 
-
+      $app['session']->getFlashBag()->add('message', 'Votre inscription a bien été enregistrer.');
       return $app->redirect('/ateliers');
-
 
     }
 

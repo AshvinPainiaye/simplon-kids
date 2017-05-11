@@ -64,3 +64,31 @@
 
 </div>
 {% endblock %}
+
+
+
+{% block javascript %}
+
+{% for message in app.session.getFlashBag.get('message') %}
+
+<script>
+$(document).ready(function(){
+
+	$.notify({
+    	icon: "pe-7s-check",
+    	message: "{{ message }}"
+
+    },{
+        type: 'success',
+        timer: 4000,
+        placement: {
+            from: 'top',
+            align: 'center'
+        }
+    });
+})
+
+</script>
+{% endfor %}
+
+{% endblock %}
