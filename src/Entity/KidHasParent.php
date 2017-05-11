@@ -30,7 +30,7 @@ class KidHasParent
 
       try {
 
-        $sql = "INSERT INTO `kid_has_parent` (`kid_id`, `parent_id`) VALUE (:kid_id, :parent_id)";
+        $sql = "INSERT INTO kid_has_parent (kid_id, parent_id) VALUE (:kid_id, :parent_id)";
 
         $stmt = $connexion->prepare($sql);
 

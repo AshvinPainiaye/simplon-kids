@@ -182,4 +182,141 @@ class WorkshopTest extends \PHPUnit_Framework_TestCase
 
   }
 
+
+
+  /**
+  * Inscription a un ateliers
+  *
+  */
+  function testRegisterWorkshop() {
+
+    $connexion =  $this->getConnection();
+
+    // ADDRESS
+    $sql = "INSERT INTO address (address, complement, city, zipcode) VALUE ('15 rue des saphirs', 'Quartier Francais', 'Sainte-Suzanne', '97441')";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    $addressId = $connexion->lastInsertId();
+
+    $sql = "SELECT * FROM address WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $addressId));
+
+    $address = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+    // PARENT
+    $sql = "INSERT INTO parent (firstname, lastname, email, address_id, phone) VALUE ('Ashvin', 'PAINIAYE', 'contact@ashvinpainiaye.com', $addressId, '+262692123456')";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    $parentId = $connexion->lastInsertId();
+
+
+    $sql = "SELECT * FROM parent WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $parentId));
+
+    $parent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+    // KID
+    $sql = "INSERT INTO kid (firstname, lastname, birthday, classroom) VALUE ('Joyce', 'PAINIAYE', '2006-02-05', 'CM2')";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+    $kidId = $connexion->lastInsertId();
+
+    $sql = "SELECT * FROM kid WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $kidId));
+    $kid = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+    // WORKSHOP HAS KID
+    $sql = "INSERT INTO workshop_has_kid (workshop_id, kid_id, validated) VALUE (1, $kidId, NULL)";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    $sql = "SELECT * FROM workshop_has_kid WHERE workshop_id = 1 AND kid_id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $kidId));
+    $whk = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+    // KID HAS WORKSHOP
+    $sql = "INSERT INTO kid_has_parent (kid_id, parent_id) VALUE ($kidId, $parentId)";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    $sql = "SELECT * FROM kid_has_parent WHERE parent_id = :parent_id AND kid_id = :kid_id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':parent_id' => $parentId, ':kid_id' => $kidId));
+    $khp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+    $expected = array(
+      array(
+        "id"=> $addressId,
+        "address"=> "15 rue des saphirs",
+        "complement"=> "Quartier Francais",
+        "city"=>  "Sainte-Suzanne",
+        "zipcode"=> "97441"
+      ),
+      array(
+        "id"=> $parentId,
+        "firstname"=>  "Ashvin",
+        "lastname"=> "PAINIAYE",
+        "email"=> "contact@ashvinpainiaye.com",
+        "address_id"=> $addressId,
+        "phone"=>  "+262692123456"
+      ),
+      array(
+        "id"=> $kidId,
+        "firstname"=> "Joyce",
+        "lastname"=>  "PAINIAYE",
+        "birthday"=>  "2006-02-05",
+        "classroom"=>  "CM2"
+      ),
+      array(
+        "workshop_id"=> "1",
+        "kid_id"=> $kidId,
+        "has_participated"=> NULL,
+        "validated"=> NULL
+      ),
+      array(
+        "kid_id"=> $kidId,
+        "parent_id"=> $parentId
+      )
+      
+    );
+
+
+    $results = array($address,  $parent, $kid, $whk, $khp);
+    $this->assertEquals($expected, $results);
+
+
+    $sql = "DELETE FROM kid_has_parent WHERE parent_id = :parent_id AND kid_id = :kid_id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':parent_id' => $parentId, ':kid_id' => $kidId));
+
+    $sql = "DELETE FROM workshop_has_kid WHERE workshop_id = 1 AND kid_id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $kidId));
+
+    $sql = "DELETE FROM kid WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $kidId));
+
+    $sql = "DELETE FROM parent WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $parentId));
+
+    $sql = "DELETE FROM address WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $addressId));
+
+  }
+
+
 }
