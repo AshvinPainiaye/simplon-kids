@@ -86,24 +86,24 @@ class WorkshopTest extends \PHPUnit_Framework_TestCase
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $expected = array(
-        'id' =>  '1',
-        'title' =>  'HTML',
-        'description' => 'Debuter en html',
-        'price' => '10.00',
-        'max_kids' => '18',
-        'image' => '1.jpg',
-        'visible' => '1',
-        'public_age_id' =>  '1',
-        'establishment_id' => '1',
-        'workshop_category_id' => '1',
-        'start' => '1',
-        'end' => '18',
-        'name' => 'Amateur',
-        'address_id' => '2',
-        'startAt' => '2017-05-09 08:30:00',
-        'endAt' => '2017-05-09 16:30:00',
-        'enable' => '1',
-        'workshop_id' => '1'
+      'id' =>  '1',
+      'title' =>  'HTML',
+      'description' => 'Debuter en html',
+      'price' => '10.00',
+      'max_kids' => '18',
+      'image' => '1.jpg',
+      'visible' => '1',
+      'public_age_id' =>  '1',
+      'establishment_id' => '1',
+      'workshop_category_id' => '1',
+      'start' => '1',
+      'end' => '18',
+      'name' => 'Amateur',
+      'address_id' => '2',
+      'startAt' => '2017-05-09 08:30:00',
+      'endAt' => '2017-05-09 16:30:00',
+      'enable' => '1',
+      'workshop_id' => '1'
     );
     $this->assertEquals($expected, $result);
   }
@@ -130,16 +130,16 @@ class WorkshopTest extends \PHPUnit_Framework_TestCase
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $expected = array(
-        'id' =>  $id,
-        'title' =>  'Code academy',
-        'description' => 'Code academy !!!',
-        'price' => '14.00',
-        'max_kids' => '12',
-        'image' => '1.jpg',
-        'visible' => '1',
-        'public_age_id' =>  '1',
-        'establishment_id' =>  '1',
-        'workshop_category_id' =>  '1',
+      'id' =>  $id,
+      'title' =>  'Code academy',
+      'description' => 'Code academy !!!',
+      'price' => '14.00',
+      'max_kids' => '12',
+      'image' => '1.jpg',
+      'visible' => '1',
+      'public_age_id' =>  '1',
+      'establishment_id' =>  '1',
+      'workshop_category_id' =>  '1',
     );
 
 
@@ -153,5 +153,33 @@ class WorkshopTest extends \PHPUnit_Framework_TestCase
   }
 
 
+
+  /**
+  * Supprime un atelier
+  *
+  */
+  function testDeleteWorkshop() {
+
+    $connexion =  $this->getConnection();
+    $sql = "INSERT INTO workshop (title, description, price, max_kids, image, visible, public_age_id, establishment_id, workshop_category_id) VALUES ('Code academy', 'Code academy !!!', 14, 12, '1.jpg', 1, 1, 1, 1)";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    $id = $connexion->lastInsertId();
+
+    $sql = "DELETE FROM workshop
+    WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+
+    $sql = "SELECT * FROM workshop WHERE id = :id";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute(array(':id' => $id));
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $this->assertFalse($result);
+
+  }
 
 }
