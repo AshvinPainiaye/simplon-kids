@@ -26,14 +26,32 @@ class WorkshopController
   {
     $workshop = new Workshop();
     $list = $workshop->fetchAll();
-    return new Response($app['twig']->render('workshop/index.html.twig', array('workshops' => $list)));
+
+    $age = new PublicAge();
+    $ages = $age->fetchAll();
+    $establishment = new Establishment();
+    $establishments = $establishment->fetchAll();
+
+    $categorie = new WorkshopCategory();
+    $categories = $categorie->fetchAll();
+
+
+    return new Response($app['twig']->render('workshop/index.html.twig', array('workshops' => $list,
+    'ages' => $ages,
+    'lieux' => $establishments,
+    'categories' => $categories)));
   }
+
+
+
 
   public function indexAdminAction(Application $app, Request $request)
   {
     $workshop = new Workshop();
     $list = $workshop->fetchAll(null, false);
-    return new Response($app['twig']->render('workshop/index_admin.html.twig', array('workshops' => $list)));
+
+    return new Response($app['twig']->render('workshop/index_admin.html.twig', array(
+      'workshops' => $list)));
   }
 
 
@@ -191,10 +209,13 @@ class WorkshopController
 
 
       $enfant = new Kid();
-      $birthday = date('Y-m-d', strtotime($_POST['enfant1_naissance']));
-      $enfant->setFirstname($_POST['enfant1_nom'])
-      ->setLastname($_POST['enfant1_prenom'])
-      ->setBirthday($birthday)
+
+      $birthday = explode('/', $_POST['enfant1_naissance']);
+      $birthdayFormat = $birthday[2] . '-' . $birthday[1] . '-' . $birthday[0];
+
+      $enfant->setFirstname($_POST['enfant1_prenom'])
+      ->setLastname($_POST['enfant1_nom'])
+      ->setBirthday($birthdayFormat)
       ->setClassroom( ($_POST['enfant1_classe'] == '' ? 'NULL' : $_POST['enfant1_classe']))
       ->save();
 
@@ -214,11 +235,18 @@ class WorkshopController
       && $_POST['enfant2_naissance'] != '') {
 
         $enfant = new Kid();
-        $birthday = date('Y-m-d', strtotime($_POST['enfant2_naissance']));
-        $enfant->setFirstname($_POST['enfant2_nom'])
-        ->setLastname($_POST['enfant2_prenom'])
-        ->setBirthday($birthday)
+        $birthday = explode('/', $_POST['enfant2_naissance']);
+        $birthdayFormat = $birthday[2] . '-' . $birthday[1] . '-' . $birthday[0];
+
+        $enfant->setFirstname($_POST['enfant2_prenom'])
+        ->setLastname($_POST['enfant2_nom'])
+        ->setBirthday($birthdayFormat)
         ->setClassroom( ($_POST['enfant2_classe'] == '' ? 'NULL' : $_POST['enfant2_classe']))
+        ->save();
+
+        $WorkshopHasKid = new WorkshopHasKid();
+        $WorkshopHasKid->setWorkshopId($_POST['ateliers'])
+        ->setKidId($enfant->getId())
         ->save();
 
         $kidHasParent = new KidHasParent();
@@ -252,7 +280,7 @@ class WorkshopController
     if ($request->get('workshop') != NULL && $request->get('response') != NULL && $request->get('kid') != NULL) {
 
       $workshop->edit($request->get('response'), $request->get('workshop'), $request->get('kid'));
-      return $app->redirect('/admin');
+      return $app->redirect('/ateliers/attente');
 
     }
 

@@ -172,11 +172,15 @@ INSERT INTO `workshop_category` (`name`) VALUES
 ('ART'), ('Jeux video'), ('Detente'), ('Logique');
 
 INSERT INTO `workshop` (`title`, `description`, `price`, `max_kids`, `image`, `visible`, `public_age_id`, `establishment_id`, `workshop_category_id`) VALUES
-('HTML', 'Debuter en html', 10, 18, '1.jpg', true, 1, 1, 1);
+('HTML', 'Debuter en html', 10, 18, '1.jpg', true, 1, 1, 1),
+('CSS', 'Ateliers css', '20.00', 15, '14944840290.jpg', 1, 2, 1, 3),
+('Code academy', 'code academy !!!!', '69.00', 30, '14944840972.jpg', 1, 4, 1, 4);
 
 
 INSERT INTO `timetable` (`startAt`,`endAt`,`enable`,`workshop_id`) VALUES
-('2017-05-09 08:30', '2017-05-09 16:30', true, 1);
+('2017-05-09 08:30', '2017-05-09 16:30', true, 1),
+('2017-05-21 11:30:00', '2017-05-21 15:30:00', NULL, 2),
+('2017-06-07 08:00:00', '2017-06-07 18:00:00', NULL, 3);
 
 
 INSERT INTO `parent` (`firstname`,`lastname`,`email`,`address_id`, `phone`) VALUES

@@ -11,29 +11,23 @@
 
         <select class="form-control" style="margin:auto 10px;">
           <option selected="true" disabled="disabled">Tranche d'âge</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          {% for age in ages %}
+          <option value="{{ age['id'] }}">{{ age['start'] }} - {{ age['end'] }} ans</option>
+          {% endfor %}
         </select>
 
         <select class="form-control" style="margin:auto 10px;">
           <option selected="true" disabled="disabled">Catégories</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          {% for categorie in categories %}
+          <option value="{{ categorie['id'] }}">{{ categorie['name'] }}</option>
+          {% endfor %}
         </select>
 
         <select class="form-control" style="margin:auto 10px;">
           <option selected="true" disabled="disabled">Lieux</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          {% for lieu in lieux %}
+          <option value="{{ lieu['id'] }}">{{ lieu['name'] }}</option>
+          {% endfor %}
         </select>
 
       </form>
@@ -44,7 +38,7 @@
 
   <div class="row">
     {% for workshop in workshops %}
-    <div class="col-sm-6 col-md-4">
+    <div class="col-sm-6 col-md-3">
       <div class="thumbnail">
         <img src="/images/{{ workshop['image'] }}" alt="...">
         <div class="caption">
