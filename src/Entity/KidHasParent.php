@@ -1,9 +1,9 @@
 <?php
 
 
-namespace kids\Entity;
+namespace Kids\Entity;
 
-use kids\Config\Database;
+use Kids\Config\Database;
 use PDO;
 
 

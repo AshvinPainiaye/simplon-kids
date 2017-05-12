@@ -1,26 +1,22 @@
 <?php
 
+namespace Tests\app;
 
-class WorkshopTest extends \PHPUnit_Framework_TestCase
+use PDO;
+use Kids\Entity\Workshop;
+
+class WorkshopTest extends DatabaseTest
 {
-
-  private $connexion = null;
-
-  public function getConnection() {
-    try {
-      $this->connexion = new PDO('mysql:host=localhost;dbname=eval_kids_test', 'root', '');
-      $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-      echo $e->getMessage();
-    }
-    return $this->connexion;
-  }
 
   /**
   * Recupere la liste des ateliers
   *
   */
   function testFetchAllWorkshop() {
+
+    $workshop = new Workshop();
+    //var_dump($Workshop);exit;
+
     $connexion =  $this->getConnection();
     $sql = "SELECT * FROM workshop";
     $stmt = $connexion->prepare($sql);

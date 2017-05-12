@@ -1,21 +1,21 @@
 <?php
-namespace kids\Controller;
+namespace Kids\Controller;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use kids\Entity\Workshop;
-use kids\Entity\Establishment;
-use kids\Entity\PublicAge;
-use kids\Entity\WorkshopCategory;
+use Kids\Entity\Workshop;
+use Kids\Entity\Establishment;
+use Kids\Entity\PublicAge;
+use Kids\Entity\WorkshopCategory;
 
-use kids\Entity\Address;
-use kids\Entity\Kid;
-use kids\Entity\KidHasParent;
-use kids\Entity\ParentOfKid;
-use kids\Entity\WorkshopHasKid;
-use kids\Entity\Timetable;
+use Kids\Entity\Address;
+use Kids\Entity\Kid;
+use Kids\Entity\KidHasParent;
+use Kids\Entity\ParentOfKid;
+use Kids\Entity\WorkshopHasKid;
+use Kids\Entity\Timetable;
 
 
 class WorkshopController

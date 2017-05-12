@@ -10,9 +10,9 @@ class DefaultControllerProvider implements ControllerProviderInterface
 	public function connect( Application $app )
 	{
 		$controller = $app['controllers_factory'];
-		$controller->match('/', 'kids\Controller\DefaultController::indexAction')->bind('homepage');
-		$controller->match('/contact', 'kids\Controller\DefaultController::contactAction')->bind('contact');
-		$controller->match('/faq', 'kids\Controller\DefaultController::faqAction')->bind('faq');
+		$controller->match('/', 'Kids\Controller\DefaultController::indexAction')->bind('homepage');
+		$controller->match('/contact', 'Kids\Controller\DefaultController::contactAction')->bind('contact');
+		$controller->match('/faq', 'Kids\Controller\DefaultController::faqAction')->bind('faq');
 
 		return $controller;
 	}

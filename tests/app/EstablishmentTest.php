@@ -1,20 +1,11 @@
 <?php
 
+namespace Tests\app;
 
-class EstablishmentTest extends \PHPUnit_Framework_TestCase
+use PDO;
+
+class EstablishmentTest extends DatabaseTest
 {
-
-  private $connexion = null;
-
-  public function getConnection() {
-    try {
-      $this->connexion = new PDO('mysql:host=localhost;dbname=eval_kids_test', 'root', '');
-      $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-      echo $e->getMessage();
-    }
-    return $this->connexion;
-  }
 
   /**
   * Recupere la liste des etablissements

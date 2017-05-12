@@ -1,11 +1,11 @@
 <?php
-namespace kids\Controller;
+namespace Kids\Controller;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use kids\Entity\Workshop;
+use Kids\Entity\Workshop;
 
 
 class DefaultController

@@ -1,7 +1,7 @@
 <?php
-namespace kids\Entity;
+namespace Kids\Entity;
 
-use kids\Config\Database;
+use Kids\Config\Database;
 use PDO;
 
 class Workshop extends Database
@@ -17,6 +17,7 @@ class Workshop extends Database
   protected $_public_age_id;
   protected $_establishment_id;
   protected $_workshop_category_id;
+
 
 
   public function fetchAll($limit = null, $onlyVisible = true)

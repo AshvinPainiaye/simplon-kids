@@ -10,9 +10,9 @@ class AdminControllerProvider implements ControllerProviderInterface
 	public function connect( Application $app )
 	{
 		$controller = $app['controllers_factory'];
-		$controller->match('/admin', 'kids\Controller\AdminController::indexAction')->bind('admin');
-		$controller->match('/login', 'kids\Controller\AdminController::loginAction')->bind('login');
-		$controller->match('/logout', 'kids\Controller\AdminController::logoutAction')->bind('logout');
+		$controller->match('/admin', 'Kids\Controller\AdminController::indexAction')->bind('admin');
+		$controller->match('/login', 'Kids\Controller\AdminController::loginAction')->bind('login');
+		$controller->match('/logout', 'Kids\Controller\AdminController::logoutAction')->bind('logout');
 
 
 		return $controller;
