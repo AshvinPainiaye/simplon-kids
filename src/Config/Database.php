@@ -12,7 +12,7 @@ class Database{
   public function getConnexion(){
 
     try {
-      $this->connexion = new PDO('mysql:host=localhost;dbname=eval_kids', 'root' ,'');
+      $this->connexion = new PDO('mysql:host=localhost;charset=utf8;dbname=eval_kids', 'root' ,'');
       $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e) {
