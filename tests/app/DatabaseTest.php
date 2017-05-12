@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\app;
+namespace tests\app;
 use PDO;
-use PHPUnit\Framework\TestCase;
 
-class DatabaseTest extends TestCase
+class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
 
   public $connection = null;
@@ -16,13 +15,9 @@ class DatabaseTest extends TestCase
 
 
   public function getConnection() {
-    try {
       $this->connection = new PDO('mysql:host=localhost;dbname=eval_kids_test', 'root', '');
       $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-      echo $e->getMessage();
-    }
-    return $this->connection;
+      return $this->connection;
   }
 
 

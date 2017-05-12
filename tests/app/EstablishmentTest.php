@@ -3,6 +3,7 @@
 namespace Tests\app;
 
 use PDO;
+use Kids\Entity\Establishment;
 
 class EstablishmentTest extends DatabaseTest
 {
@@ -12,27 +13,42 @@ class EstablishmentTest extends DatabaseTest
   *
   */
   function testFetchAllEstablishment() {
-    $connexion =  $this->getConnection();
-    $sql = "SELECT * FROM establishment";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
 
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $establishment = new establishment();
+    $actual = $establishment->fetchAll();
+
     $expected = array(
+
       array(
-        'id' =>  '1',
-        'name' =>  'College Quartier Francais',
-        'address_id' => '2'
+        "id"=> "1",
+        "name"=>  "College Quartier Francais",
+        "address"=> "10 rue des goyave",
+        "complement"=>  "",
+        "city"=> "Saint-Denis",
+        "zipcode"=>  "97400"
       ),
+
       array(
-        'id' =>  '2',
-        'name' =>  'College Lucet Langenier',
-        'address_id' => '3'
+        "id"=>  "2",
+        "name"=>  "College Lucet",
+        "address"=>  "Avenue des letchi",
+        "complement"=>  "",
+        "city"=>  "Saint-Pierre",
+        "zipcode"=> "97410"
       ),
+
+      array(
+        "id"=>  "3",
+        "name"=>  "Ecole 2 canon",
+        "address"=> "Rue des kebab",
+        "complement"=>  "chemin 4",
+        "city"=> "Saint-André",
+        "zipcode"=> "97490"
+      )
 
     );
 
-    $this->assertEquals($expected, $results);
+    $this->assertEquals($expected, $actual);
   }
 
 
@@ -40,18 +56,9 @@ class EstablishmentTest extends DatabaseTest
   * Recupere un etablissements
   *
   */
-  function testFindWorkshop() {
-    $id = 1;
-    $connexion =  $this->getConnection();
-    $sql = "SELECT e.id, e.name, a.address, a.complement, a.city, a.zipcode
-    FROM establishment as e
-    JOIN address a
-    ON e.address_id = a.id
-    WHERE e.id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
-
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  function testFindEstablishment() {
+    $establishment = new establishment();
+    $actual = $establishment->find(1);
 
     $expected = array(
         'id' =>  '1',
@@ -62,7 +69,7 @@ class EstablishmentTest extends DatabaseTest
         'zipcode' => '97400'
     );
 
-    $this->assertEquals($expected, $result);
+    $this->assertEquals($expected, $actual);
   }
 
 }

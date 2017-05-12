@@ -14,6 +14,18 @@ class Address extends Database
     protected $_city;
     protected $_zipcode;
 
+    public function fetchAll()
+    {
+      $connexion = $this->getConnexion();
+        $sql = "SELECT * FROM address";
+
+      $stmt = $connexion->prepare($sql);
+      $stmt->execute();
+
+      $results = $stmt->fetchAll();
+      return $results;
+    }
+
 
     public function save()
     {

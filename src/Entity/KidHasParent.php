@@ -13,6 +13,18 @@ class KidHasParent extends Database
     protected $_kid_id;
     protected $_parent_id;
 
+    public function fetchAll()
+    {
+      $connexion = $this->getConnexion();
+        $sql = "SELECT * FROM kid_has_parent";
+
+      $stmt = $connexion->prepare($sql);
+      $stmt->execute();
+
+      $results = $stmt->fetchAll();
+
+      return $results;
+    }
 
     public function save()
     {

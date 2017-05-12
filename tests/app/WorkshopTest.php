@@ -4,6 +4,11 @@ namespace Tests\app;
 
 use PDO;
 use Kids\Entity\Workshop;
+use Kids\Entity\Address;
+use Kids\Entity\Kid;
+use Kids\Entity\KidHasParent;
+use Kids\Entity\ParentOfKid;
+use Kids\Entity\WorkshopHasKid;
 
 class WorkshopTest extends DatabaseTest
 {
@@ -15,44 +20,73 @@ class WorkshopTest extends DatabaseTest
   function testFetchAllWorkshop() {
 
     $workshop = new Workshop();
-    //var_dump($Workshop);exit;
-
-    $connexion =  $this->getConnection();
-    $sql = "SELECT * FROM workshop";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $actual = $workshop->fetchAll();
 
     $expected = array(
       array(
-        'id' =>  '1',
-        'title' =>  'HTML',
-        'description' => 'Debuter en html',
-        'price' => '10.00',
-        'max_kids' => '18',
-        'image' => '1.jpg',
-        'visible' => '1',
-        'public_age_id' =>  '1',
-        'establishment_id' => '1',
-        'workshop_category_id' => '1'
+        "id"=>  "3",
+        "title"=>  "Code academy",
+        "description"=>  "code academy !!!!",
+        "price"=>  "69.00",
+        "max_kids"=> "30",
+        "image"=> "14944840972.jpg",
+        "visible"=>  "1",
+        "public_age_id"=> "4",
+        "establishment_id"=>  "1",
+        "workshop_category_id"=>  "4",
+        "start"=>  "4",
+        "end"=>  "9",
+        "name"=> "Logique",
+        "address_id"=>  "2",
+        "startAt"=> "2017-06-07 08:00:00",
+        "endAt"=>  "2017-06-07 18:00:00",
+        "enable"=> NULL,
+        "workshop_id"=> "3"
       ),
       array(
-        'id' =>  '2',
-        'title' =>  'CSS',
-        'description' => 'Debuter avec CSS',
-        'price' => '12.00',
-        'max_kids' => '20',
-        'image' => '1.jpg',
-        'visible' => '1',
-        'public_age_id' =>  '1',
-        'establishment_id' => '1',
-        'workshop_category_id' => '2'
+        "id"=>  "2",
+        "title"=> "CSS",
+        "description"=> "Ateliers css",
+        "price"=> "20.00",
+        "max_kids"=> "15",
+        "image"=>  "14944840290.jpg",
+        "visible"=> "1",
+        "public_age_id"=> "2",
+        "establishment_id"=> "1",
+        "workshop_category_id"=>  "3",
+        "start"=>  "10",
+        "end"=> "18",
+        "name"=> "Detente",
+        "address_id"=> "2",
+        "startAt"=>  "2017-05-21 11:30:00",
+        "endAt"=>  "2017-05-21 15:30:00",
+        "enable"=> NULL,
+        "workshop_id"=> "2"
+      ),
+      array(
+        "id"=>  "1",
+        "title"=> "HTML",
+        "description"=> "Debuter en html",
+        "price"=> "10.00",
+        "max_kids"=> "18",
+        "image"=>  "1.jpg",
+        "visible"=>  "1",
+        "public_age_id"=>  "1",
+        "establishment_id"=>  "1",
+        "workshop_category_id"=> "1",
+        "start"=>  "1",
+        "end"=>  "18",
+        "name"=> "ART",
+        "address_id"=>  "2",
+        "startAt"=>  "2017-05-09 08:30:00",
+        "endAt"=>  "2017-05-09 16:30:00",
+        "enable"=>  "1",
+        "workshop_id"=> "1"
       )
 
     );
 
-    $this->assertEquals($expected, $results);
+    $this->assertEquals($expected, $actual);
   }
 
 
@@ -63,45 +97,30 @@ class WorkshopTest extends DatabaseTest
   */
   function testFindWorkshop() {
 
-    $id = 1;
-    $connexion =  $this->getConnection();
-    $sql = "SELECT *, w.id as workshop_id, t.startAt as startAt, t.endAt as endAt
-    FROM workshop as w
-    JOIN public_age a
-    ON w.public_age_id = a.id
-    JOIN establishment e
-    ON w.establishment_id = e.id
-    JOIN workshop_category c
-    ON w.workshop_category_id = c.id
-    JOIN timetable t
-    ON w.id = t.workshop_id
-    WHERE w.id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
-
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $workshop = new Workshop();
+    $actual = $workshop->find(1);
 
     $expected = array(
-      'id' =>  '1',
-      'title' =>  'HTML',
-      'description' => 'Debuter en html',
-      'price' => '10.00',
-      'max_kids' => '18',
-      'image' => '1.jpg',
-      'visible' => '1',
-      'public_age_id' =>  '1',
-      'establishment_id' => '1',
-      'workshop_category_id' => '1',
-      'start' => '1',
-      'end' => '18',
-      'name' => 'Amateur',
-      'address_id' => '2',
-      'startAt' => '2017-05-09 08:30:00',
-      'endAt' => '2017-05-09 16:30:00',
-      'enable' => '1',
-      'workshop_id' => '1'
+      "id"=> "1",
+      "title"=> "HTML",
+      "description"=>  "Debuter en html",
+      "price"=> "10.00",
+      "max_kids"=>  "18",
+      "image"=>  "1.jpg",
+      "visible"=>  "1",
+      "public_age_id"=>  "1",
+      "establishment_id"=>  "1",
+      "workshop_category_id"=>  "1",
+      "start"=>  "1",
+      "end"=>  "18",
+      "name"=>  "ART",
+      "address_id"=>  "2",
+      "startAt"=>  "2017-05-09 08:30:00",
+      "endAt"=> "2017-05-09 16:30:00",
+      "enable"=>  "1",
+      "workshop_id"=>  "1"
     );
-    $this->assertEquals($expected, $result);
+    $this->assertEquals($expected, $actual);
   }
 
 
@@ -112,39 +131,26 @@ class WorkshopTest extends DatabaseTest
   */
   function testNewWorkshop() {
 
-    $connexion =  $this->getConnection();
-    $sql = "INSERT INTO workshop (title, description, price, max_kids, image, visible, public_age_id, establishment_id, workshop_category_id) VALUES ('Code academy', 'Code academy !!!', 14, 12, '1.jpg', 1, 1, 1, 1)";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
+    $workshop = new Workshop();
 
-    $id = $connexion->lastInsertId();
+    $expected = count($workshop->fetchAll()) + 1;
 
-    $sql = "SELECT * FROM workshop WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
+    $workshop
+    ->setTitle('title')
+    ->setDescription('description')
+    ->setPrice('11')
+    ->setMaxKids('12')
+    ->setImage('1.jpg')
+    ->setVisible(1)
+    ->setPublicAgeId(1)
+    ->setEstablishmentId(1)
+    ->setWorkshopCategoryId(1);
+    $workshop->save();
 
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $actual = count($workshop->fetchAll());
+    $this->assertEquals($expected, $actual);
 
-    $expected = array(
-      'id' =>  $id,
-      'title' =>  'Code academy',
-      'description' => 'Code academy !!!',
-      'price' => '14.00',
-      'max_kids' => '12',
-      'image' => '1.jpg',
-      'visible' => '1',
-      'public_age_id' =>  '1',
-      'establishment_id' =>  '1',
-      'workshop_category_id' =>  '1',
-    );
-
-
-    $this->assertEquals($expected, $result);
-
-    $sql = "DELETE FROM workshop
-    WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
+    $workshop->delete($workshop->getId());
 
   }
 
@@ -155,27 +161,24 @@ class WorkshopTest extends DatabaseTest
   *
   */
   function testDeleteWorkshop() {
+    $workshop = new Workshop();
 
-    $connexion =  $this->getConnection();
-    $sql = "INSERT INTO workshop (title, description, price, max_kids, image, visible, public_age_id, establishment_id, workshop_category_id) VALUES ('Code academy', 'Code academy !!!', 14, 12, '1.jpg', 1, 1, 1, 1)";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
+    $workshop
+    ->setTitle('title')
+    ->setDescription('description')
+    ->setPrice('11')
+    ->setMaxKids('12')
+    ->setImage('1.jpg')
+    ->setVisible(1)
+    ->setPublicAgeId(1)
+    ->setEstablishmentId(1)
+    ->setWorkshopCategoryId(1);
+    $workshop->save();
 
-    $id = $connexion->lastInsertId();
-
-    $sql = "DELETE FROM workshop
-    WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
-
-    $sql = "SELECT * FROM workshop WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $id));
-
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $this->assertFalse($result);
-
+    $expected = count($workshop->fetchAll()) - 1;
+    $workshop->delete($workshop->getId());
+    $actual = count($workshop->fetchAll());
+    $this->assertEquals($expected, $actual);
   }
 
 
@@ -185,132 +188,75 @@ class WorkshopTest extends DatabaseTest
   *
   */
   function testRegisterWorkshop() {
+    $expected = array();
+    $actual = array();
 
-    $connexion =  $this->getConnection();
-
-    // ADDRESS
-    $sql = "INSERT INTO address (address, complement, city, zipcode) VALUE ('15 rue des saphirs', 'Quartier Francais', 'Sainte-Suzanne', '97441')";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-    $addressId = $connexion->lastInsertId();
-
-    $sql = "SELECT * FROM address WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $addressId));
-
-    $address = $stmt->fetch(PDO::FETCH_ASSOC);
+    $address = new Address();
+    $expected['address'] = count($address->fetchAll()) + 1;
+    $address->setAddress('15 rue des saphirs')
+    ->setComplement('')
+    ->setCity('Sainte-Suzanne')
+    ->setZipcode('97441')
+    ->save();
+    $actual['address'] = count($address->fetchAll());
 
 
-    // PARENT
-    $sql = "INSERT INTO parent (firstname, lastname, email, address_id, phone) VALUE ('Ashvin', 'PAINIAYE', 'contact@ashvinpainiaye.com', $addressId, '+262692123456')";
+    $parent = new ParentOfKid();
+    $expected['parent'] = count($parent->fetchAll()) + 1;
+    $parent->setFirstname('Ashvin')
+    ->setLastname('Painiaye')
+    ->setEmail('contact@ashvinpainiaye.com')
+    ->setAddressId($address->getId())
+    ->setPhone('0692123456')
+    ->save();
+    $actual['parent'] = count($parent->fetchAll());
 
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-    $parentId = $connexion->lastInsertId();
+    $enfant = new Kid();
+    $expected['kid'] = count($enfant->fetchAll()) + 1;
+    $enfant->setFirstname('John')
+    ->setLastname('Doe')
+    ->setBirthday('1999-01-03')
+    ->setClassroom('')
+    ->save();
+    $actual['kid'] = count($enfant->fetchAll());
 
+    $WorkshopHasKid = new WorkshopHasKid();
+    $expected['workshop_has_kid'] = count($WorkshopHasKid->fetchAllTable()) + 1;
+    $WorkshopHasKid->setWorkshopId(1)
+    ->setKidId($enfant->getId())
+    ->save();
+    $actual['workshop_has_kid'] = count($WorkshopHasKid->fetchAllTable());
 
-    $sql = "SELECT * FROM parent WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $parentId));
+    $kidHasParent = new KidHasParent();
+    $expected['kid_has_parent'] = count($kidHasParent->fetchAll()) + 1;
+    $kidHasParent->setKidId($enfant->getId())
+    ->setParentId($parent->getId())
+    ->save();
+    $actual['kid_has_parent'] = count($kidHasParent->fetchAll());
 
-    $parent = $stmt->fetch(PDO::FETCH_ASSOC);
+    $this->assertEquals($expected, $actual);
+    
 
-
-    // KID
-    $sql = "INSERT INTO kid (firstname, lastname, birthday, classroom) VALUE ('Joyce', 'PAINIAYE', '2006-02-05', 'CM2')";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-    $kidId = $connexion->lastInsertId();
-
-    $sql = "SELECT * FROM kid WHERE id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $kidId));
-    $kid = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-    // WORKSHOP HAS KID
-    $sql = "INSERT INTO workshop_has_kid (workshop_id, kid_id, validated) VALUE (1, $kidId, NULL)";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    $sql = "SELECT * FROM workshop_has_kid WHERE workshop_id = 1 AND kid_id = :id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $kidId));
-    $whk = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-    // KID HAS WORKSHOP
-    $sql = "INSERT INTO kid_has_parent (kid_id, parent_id) VALUE ($kidId, $parentId)";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute();
-
-    $sql = "SELECT * FROM kid_has_parent WHERE parent_id = :parent_id AND kid_id = :kid_id";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':parent_id' => $parentId, ':kid_id' => $kidId));
-    $khp = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-    $expected = array(
-      array(
-        "id"=> $addressId,
-        "address"=> "15 rue des saphirs",
-        "complement"=> "Quartier Francais",
-        "city"=>  "Sainte-Suzanne",
-        "zipcode"=> "97441"
-      ),
-      array(
-        "id"=> $parentId,
-        "firstname"=>  "Ashvin",
-        "lastname"=> "PAINIAYE",
-        "email"=> "contact@ashvinpainiaye.com",
-        "address_id"=> $addressId,
-        "phone"=>  "+262692123456"
-      ),
-      array(
-        "id"=> $kidId,
-        "firstname"=> "Joyce",
-        "lastname"=>  "PAINIAYE",
-        "birthday"=>  "2006-02-05",
-        "classroom"=>  "CM2"
-      ),
-      array(
-        "workshop_id"=> "1",
-        "kid_id"=> $kidId,
-        "has_participated"=> NULL,
-        "validated"=> NULL
-      ),
-      array(
-        "kid_id"=> $kidId,
-        "parent_id"=> $parentId
-      )
-
-    );
-
-
-    $results = array($address,  $parent, $kid, $whk, $khp);
-    $this->assertEquals($expected, $results);
-
-
+    $connexion = $this->getConnection();
     $sql = "DELETE FROM kid_has_parent WHERE parent_id = :parent_id AND kid_id = :kid_id";
     $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':parent_id' => $parentId, ':kid_id' => $kidId));
+    $stmt->execute(array(':parent_id' => $parent->getId(), ':kid_id' => $enfant->getId()));
 
     $sql = "DELETE FROM workshop_has_kid WHERE workshop_id = 1 AND kid_id = :id";
     $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $kidId));
+    $stmt->execute(array(':id' => $enfant->getId()));
 
     $sql = "DELETE FROM kid WHERE id = :id";
     $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $kidId));
+    $stmt->execute(array(':id' => $enfant->getId()));
 
     $sql = "DELETE FROM parent WHERE id = :id";
     $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $parentId));
+    $stmt->execute(array(':id' => $parent->getId()));
 
     $sql = "DELETE FROM address WHERE id = :id";
     $stmt = $connexion->prepare($sql);
-    $stmt->execute(array(':id' => $addressId));
+    $stmt->execute(array(':id' => $address->getId()));
 
   }
 

@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Kids\Entity\Workshop;
 
-
 class DefaultController
 {
 

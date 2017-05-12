@@ -15,6 +15,19 @@ class ParentOfKid extends Database
   protected $_address_id;
   protected $_phone;
 
+  public function fetchAll()
+  {
+    $connexion = $this->getConnexion();
+      $sql = "SELECT * FROM parent";
+
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute();
+
+    $results = $stmt->fetchAll();
+
+    return $results;
+  }
+
   public function save()
   {
     $connexion =  $this->getConnexion();

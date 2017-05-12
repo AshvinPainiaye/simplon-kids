@@ -19,7 +19,6 @@ class Workshop extends Database
   protected $_workshop_category_id;
 
 
-
   public function fetchAll($limit = null, $onlyVisible = true)
   {
     $connexion = $this->getConnexion();
@@ -73,7 +72,7 @@ class Workshop extends Database
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-    $jours = array(
+    /*$jours = array(
       1 => 'Lundi',
       2 => 'Mardi',
       3 => 'Mercredi',
@@ -101,7 +100,7 @@ class Workshop extends Database
     $day = date('N', strtotime($result['startAt']));
 
     $month = date('n', strtotime($result['startAt']));
-    $result['time'] = $jours[$day] . ' ' . date('j', strtotime($result['startAt'])) . ' ' . $mois[$month] . ' ' . date('G', strtotime($result['startAt'])) . 'h - ' . date('G', strtotime($result['endAt'])) . 'h';
+    $result['time'] = $jours[$day] . ' ' . date('j', strtotime($result['startAt'])) . ' ' . $mois[$month] . ' ' . date('G', strtotime($result['startAt'])) . 'h - ' . date('G', strtotime($result['endAt'])) . 'h';*/
     return $result;
 
   }

@@ -16,6 +16,18 @@ class Kid extends Database
     protected $_classroom;
     protected $connexion;
 
+    public function fetchAll()
+    {
+      $connexion = $this->getConnexion();
+        $sql = "SELECT * FROM kid";
+
+      $stmt = $connexion->prepare($sql);
+      $stmt->execute();
+
+      $results = $stmt->fetchAll();
+
+      return $results;
+    }
 
     public function save()
     {
