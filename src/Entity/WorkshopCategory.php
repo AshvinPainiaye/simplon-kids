@@ -6,24 +6,16 @@ use kids\Config\Database;
 use PDO;
 
 
-class WorkshopCategory
+class WorkshopCategory extends Database
 {
 
     protected $_id;
     protected $_name;
 
-    protected $connexion;
-
-      public function __construct()
-      {
-        $db = new Database();
-        $this->connexion =  $db->getConnexion();
-      }
-
 
       public function fetchAll()
       {
-        $connexion =  $this->connexion;
+        $connexion =  $this->getConnexion();
 
           $sql = "SELECT * FROM workshop_category";
 

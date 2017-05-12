@@ -7,23 +7,16 @@ use kids\Config\Database;
 use PDO;
 
 
-class KidHasParent
+class KidHasParent extends Database
 {
 
     protected $_kid_id;
     protected $_parent_id;
 
-    protected $connexion;
-
-    public function __construct()
-    {
-      $db = new Database();
-      $this->connexion =  $db->getConnexion();
-    }
 
     public function save()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $kidId = $this->getKidId();
       $parentId = $this->getParentId();

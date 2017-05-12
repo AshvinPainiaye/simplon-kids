@@ -5,7 +5,7 @@ namespace kids\Entity;
 use kids\Config\Database;
 use PDO;
 
-class ParentOfKid
+class ParentOfKid extends Database
 {
 
   protected $_id;
@@ -14,18 +14,10 @@ class ParentOfKid
   protected $_email;
   protected $_address_id;
   protected $_phone;
-  protected $connexion;
-
-  public function __construct()
-  {
-    $db = new Database();
-    $this->connexion =  $db->getConnexion();
-  }
-
 
   public function save()
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $firstname = $this->getFirstname();
     $lastname = $this->getLastname();

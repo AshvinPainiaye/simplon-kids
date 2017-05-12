@@ -6,7 +6,7 @@ use kids\Config\Database;
 use PDO;
 
 
-class Kid
+class Kid extends Database
 {
 
     protected $_id;
@@ -16,15 +16,10 @@ class Kid
     protected $_classroom;
     protected $connexion;
 
-    public function __construct()
-    {
-      $db = new Database();
-      $this->connexion =  $db->getConnexion();
-    }
 
     public function save()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $firstname = $this->getFirstname();
       $lastname = $this->getLastname();

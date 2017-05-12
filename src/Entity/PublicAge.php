@@ -5,7 +5,7 @@ namespace kids\Entity;
 use kids\Config\Database;
 use PDO;
 
-class PublicAge
+class PublicAge extends Database
 {
 
     protected $_id;
@@ -13,18 +13,9 @@ class PublicAge
     protected $_end;
 
 
-    protected $connexion;
-
-      public function __construct()
-      {
-        $db = new Database();
-        $this->connexion =  $db->getConnexion();
-      }
-
-
       public function fetchAll()
       {
-        $connexion =  $this->connexion;
+        $connexion =  $this->getConnexion();
 
           $sql = "SELECT * FROM public_age";
 

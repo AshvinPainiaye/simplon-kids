@@ -7,24 +7,17 @@ use kids\Config\Database;
 use PDO;
 
 
-class WorkshopHasKid
+class WorkshopHasKid extends Database
 {
 
     protected $_workshop_id;
     protected $_kid_id;
     protected $_has_participated;
     protected $_validated;
-    protected $connexion;
-
-    public function __construct()
-    {
-      $db = new Database();
-      $this->connexion =  $db->getConnexion();
-    }
 
     public function fetchAll()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
         $sql = "SELECT *, k.id as kid_id, k.firstname as kid_firstname, k.lastname as kid_lastname, p.firstname as parent_firstname, p.lastname as parent_lastname
         FROM workshop_has_kid as whk
@@ -50,7 +43,7 @@ class WorkshopHasKid
 
     public function find($workshopId, $kidId)
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $sql = "SELECT *
       FROM workshop_has_kid
@@ -68,7 +61,7 @@ class WorkshopHasKid
 
     public function save()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $workshopId = $this->getWorkshopId();
       $kidId = $this->getKidId();
@@ -93,7 +86,7 @@ class WorkshopHasKid
 
     public function edit($validated, $workshop, $kid)
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $workshopId = $this->getWorkshopId();
       $kidId = $this->getKidId();

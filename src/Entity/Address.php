@@ -5,7 +5,7 @@ namespace kids\Entity;
 use kids\Config\Database;
 use PDO;
 
-class Address
+class Address extends Database
 {
 
     protected $_id;
@@ -13,17 +13,11 @@ class Address
     protected $_complement;
     protected $_city;
     protected $_zipcode;
-    protected $connexion;
 
-    public function __construct()
-    {
-      $db = new Database();
-      $this->connexion =  $db->getConnexion();
-    }
 
     public function save()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $address = $this->getAddress();
       $complement = $this->getComplement();

@@ -6,24 +6,17 @@ use kids\Config\Database;
 
 use PDO;
 
-class Admin
+class Admin extends Database
 {
 
   protected $_id;
   protected $_username;
   protected $_password;
 
-  protected $connexion;
-
-  public function __construct()
-  {
-    $db = new Database();
-    $this->connexion =  $db->getConnexion();
-  }
 
   public function authenticate($username, $password)
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $sql = "SELECT * FROM admin WHERE username = :username AND password = :password";
     $stmt = $connexion->prepare($sql);

@@ -5,25 +5,17 @@ namespace kids\Entity;
 use kids\Config\Database;
 use PDO;
 
-class Establishment
+class Establishment extends Database
 {
 
   protected $_id;
   protected $_name;
   protected $_address_id;
 
-  protected $connexion;
-
-  public function __construct()
-  {
-    $db = new Database();
-    $this->connexion =  $db->getConnexion();
-  }
-
 
   public function fetchAll()
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $sql = "SELECT id FROM establishment";
 
@@ -43,7 +35,7 @@ class Establishment
 
   public function find($id)
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $sql = "SELECT e.id, e.name, a.address, a.complement, a.city, a.zipcode
     FROM establishment as e

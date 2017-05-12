@@ -288,7 +288,7 @@ class WorkshopTest extends \PHPUnit_Framework_TestCase
         "kid_id"=> $kidId,
         "parent_id"=> $parentId
       )
-      
+
     );
 
 

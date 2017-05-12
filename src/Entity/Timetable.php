@@ -6,7 +6,7 @@ use kids\Config\Database;
 use PDO;
 
 
-class Timetable
+class Timetable extends Database
 {
 
     protected $_id;
@@ -14,17 +14,10 @@ class Timetable
     protected $_endAt;
     protected $_enable;
     protected $_workshop_id;
-    protected $connexion;
-
-    public function __construct()
-    {
-      $db = new Database();
-      $this->connexion =  $db->getConnexion();
-    }
 
     public function save()
     {
-      $connexion =  $this->connexion;
+      $connexion =  $this->getConnexion();
 
       $startAt = $this->getStartAt();
       $endAt = $this->getEndAt();

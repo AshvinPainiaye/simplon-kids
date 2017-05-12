@@ -4,7 +4,7 @@ namespace kids\Entity;
 use kids\Config\Database;
 use PDO;
 
-class Workshop
+class Workshop extends Database
 {
 
   protected $_id;
@@ -18,19 +18,10 @@ class Workshop
   protected $_establishment_id;
   protected $_workshop_category_id;
 
-  protected $connexion;
-
-  public function __construct()
-  {
-    $db = new Database();
-    $this->connexion =  $db->getConnexion();
-  }
-
 
   public function fetchAll($limit = null, $onlyVisible = true)
   {
-    $connexion =  $this->connexion;
-
+    $connexion = $this->getConnexion();
     if ($limit != null) {
       $sql = "SELECT id FROM workshop ORDER BY id DESC LIMIT $limit";
 
@@ -62,7 +53,7 @@ class Workshop
 
   public function find($id)
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $sql = "SELECT *, w.id as workshop_id, t.startAt as startAt, t.endAt as endAt
     FROM workshop as w
@@ -116,7 +107,7 @@ class Workshop
 
   public function delete($id)
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $sql = "DELETE FROM workshop
     WHERE id = :id";
@@ -127,7 +118,7 @@ class Workshop
 
   public function save()
   {
-    $connexion =  $this->connexion;
+    $connexion =  $this->getConnexion();
 
     $title = $this->getTitle();
     $description = $this->getDescription();
