@@ -8,3 +8,4 @@ Installation :
    note : - default configuration : root and no password
 4. composer run
 5. open your web browser and go to http://localhost:8888/
+6. import sql/eval_kids_test.sql for test unitaire and modify the database name in src/config/Database.php
